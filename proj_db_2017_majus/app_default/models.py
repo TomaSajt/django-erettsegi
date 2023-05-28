@@ -18,7 +18,29 @@ class Tudos(models.Model):
         return self.nev
 
     def feltolt(lines):
-        return 1,None
+        Tudos.objects.all().delete()
+        cnt = 0
+        for i, line in enumerate(lines):
+            split = line.split('\t')
+            print(split[0])
+
+            if len(split) != 3:
+                return cnt, f"Hiba a(z) {i+1}. rekordban. Nem megfelelő tabulátorszám!"
+
+            try:
+                azon = int(split[0])
+            except:
+                return cnt, f"Hiba a(z) {i+1} rekordban. Az 1. mezőben egész számot kell megadni!"
+
+            
+            Tudos.objects.create(
+                azon = azon,
+                nev = split[1],
+                terulet = split[2],
+            )
+            cnt += 1
+                
+        return cnt, None
 
 
 
@@ -58,17 +80,43 @@ class Eloadas(models.Model):
                 return cnt, f"Hiba a(z) {i+1} rekordban. Az 3. mezőben rossz formátumban van megadva a dátum"
                 
             
-            _, created = Eloadas.objects.get_or_create(
+            Eloadas.objects.create(
                 azon = azon,
                 cim = split[1],
                 ido = ido,
             )
-
-            if created:
-                cnt += 1
+            cnt += 1
                 
         return cnt, None
 
     def feltolt_kapcsolat(lines):
-        return 1,None
+        for eloadas in Eloadas.objects.all():
+            eloadas.tudosok.clear()
+        cnt = 0
+        for i, line in enumerate(lines):
+            split = line.split('\t')
+            print(split[0])
+
+            if len(split) != 2:
+                return cnt, f"Hiba a(z) {i+1}. rekordban. Nem megfelelő tabulátorszám!"
+
+            try:
+                tudos_azon = int(split[0])
+            except:
+                return cnt, f"Hiba a(z) {i+1} rekordban. Az 1. mezőben egész számot kell megadni!"
+
+            try:
+                eloadas_azon = int(split[1])
+            except:
+                return cnt, f"Hiba a(z) {i+1} rekordban. Az 2. mezőben egész számot kell megadni!"
+
+            eloadas = Eloadas.objects.get(azon=eloadas_azon)
+            tudos = Tudos.objects.get(azon=tudos_azon)
+
+            eloadas.tudosok.add(tudos)
+            eloadas.save()
+
+            cnt += 1
+                
+        return cnt, None
 
