@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
-    <form action="/feltoltes/{{ table }}" method="POST">
+    <form action="/feltolt/{{ table }}" method="POST" class="center-flex">
+        <h1>A(z) {{ table }} nevű tábla feltöltése</h1>
         {% csrf_token %}
         <textarea name="contents" cols="100" rows="50"></textarea>
         <button type="submit">Beküldés</button>

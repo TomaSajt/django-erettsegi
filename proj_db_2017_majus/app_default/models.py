@@ -22,7 +22,6 @@ class Tudos(models.Model):
         cnt = 0
         for i, line in enumerate(lines):
             split = line.split('\t')
-            print(split[0])
 
             if len(split) != 3:
                 return cnt, f"Hiba a(z) {i+1}. rekordban. Nem megfelelő tabulátorszám!"
@@ -64,7 +63,6 @@ class Eloadas(models.Model):
         cnt = 0
         for i, line in enumerate(lines):
             split = line.split('\t')
-            print(split[0])
 
             if len(split) != 3:
                 return cnt, f"Hiba a(z) {i+1}. rekordban. Nem megfelelő tabulátorszám!"
@@ -77,7 +75,7 @@ class Eloadas(models.Model):
             try:
                 ido = datetime.strptime(split[2],"%Y.%m.%d").date()
             except:
-                return cnt, f"Hiba a(z) {i+1} rekordban. Az 3. mezőben rossz formátumban van megadva a dátum"
+                return cnt, f"Hiba a(z) {i+1} rekordban. A 3. mezőben rossz formátumban van megadva a dátum"
                 
             
             Eloadas.objects.create(
@@ -89,13 +87,12 @@ class Eloadas(models.Model):
                 
         return cnt, None
 
-    def feltolt_kapcsolat(lines):
+    def feltolt_kapcsolo(lines):
         for eloadas in Eloadas.objects.all():
             eloadas.tudosok.clear()
         cnt = 0
         for i, line in enumerate(lines):
             split = line.split('\t')
-            print(split[0])
 
             if len(split) != 2:
                 return cnt, f"Hiba a(z) {i+1}. rekordban. Nem megfelelő tabulátorszám!"
@@ -108,7 +105,7 @@ class Eloadas(models.Model):
             try:
                 eloadas_azon = int(split[1])
             except:
-                return cnt, f"Hiba a(z) {i+1} rekordban. Az 2. mezőben egész számot kell megadni!"
+                return cnt, f"Hiba a(z) {i+1} rekordban. A 2. mezőben egész számot kell megadni!"
 
             eloadas = Eloadas.objects.get(azon=eloadas_azon)
             tudos = Tudos.objects.get(azon=tudos_azon)

@@ -5,24 +5,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2. feladat</title>
+    <title>4. feladat</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
     <div class="center-flex">
-        <h1>A 2006-ban elhangzott előadások</h1>
+        <h1>Az előadók száma tudományterületenként</h1>
         <table>
             <thead>
                 <tr>
-                    <th>Cím</th>
-                    <th>Időpont</th>
+                    <th>Tudományterület</th>
+                    <th>Tudósok száma</th>
                 </tr>
             </thead>
             <tbody>
-                {% for eloadas in eloadasok %}
+                {% for adat in adatok %}
                 <tr>
-                    <td>{{ eloadas.cim }}</td>
-                    <td>{{ eloadas.ido }}</td>
+                    <td>{{ adat.terulet }}</td>
+                    <td>{{ adat.db }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
