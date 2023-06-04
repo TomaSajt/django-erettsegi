@@ -34,12 +34,12 @@ def feltolt(request, table):
 
 def feladat2(request):
     return render(request, 'feladat2.html', {
-        'eloadasok': (e for e in Eloadas.objects.order_by('cim') if e.ido.year == 2006),
+        'eloadasok': Eloadas.objects.filter(ido__year=2006).order_by('cim'),
     })
 
 def feladat3(request):
     return render(request, 'feladat3.html', {
-        'eloadasok': (e for e in Eloadas.objects.all() if "nyelv" in e.cim),
+        'eloadasok': Eloadas.objects.filter(cim__icontains="nyelv"),
     })
 
 def feladat4(request):
@@ -55,5 +55,5 @@ def feladat5(request):
 def feladat6(request):
     ido = Eloadas.objects.get(cim='Mit tud az emberi agy?').ido
     return render(request, 'feladat6.html', {
-        'eloadasok': (e for e in Eloadas.objects.all() if e.ido.year == ido.year and e.ido.month == ido.month),
+        'eloadasok': Eloadas.objects.filter(ido__year=ido.year,ido__month=ido.month)
     })
