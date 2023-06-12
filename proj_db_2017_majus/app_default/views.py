@@ -33,27 +33,17 @@ def feltolt(request, table):
 
 
 def feladat2(request):
-    return render(request, 'feladat2.html', {
-        'eloadasok': Eloadas.objects.filter(ido__year=2006).order_by('cim'),
-    })
+    return render(request, 'feladat2.html', { 'eloadasok': Eloadas.objects.filter(ido__year=2006).order_by('cim') })
 
 def feladat3(request):
-    return render(request, 'feladat3.html', {
-        'eloadasok': Eloadas.objects.filter(cim__icontains="nyelv"),
-    })
+    return render(request, 'feladat3.html', { 'eloadasok': Eloadas.objects.filter(cim__icontains="nyelv") })
 
 def feladat4(request):
-    return render(request, 'feladat4.html', {
-        'adatok': Tudos.objects.values('terulet').annotate(db=Count('terulet')).order_by('-db'),
-    })
+    return render(request, 'feladat4.html', { 'adatok': Tudos.objects.values('terulet').annotate(db=Count('terulet')).order_by('-db') })
 
 def feladat5(request):
-    return render(request, 'feladat5.html', {
-        'tudosok': (t for t in Tudos.objects.all() if t.eloadas_set.count() > 1),
-    })
+    return render(request, 'feladat5.html', { 'tudosok': (t for t in Tudos.objects.all() if t.eloadas_set.count() > 1) })
 
 def feladat6(request):
     ido = Eloadas.objects.get(cim='Mit tud az emberi agy?').ido
-    return render(request, 'feladat6.html', {
-        'eloadasok': Eloadas.objects.filter(ido__year=ido.year,ido__month=ido.month)
-    })
+    return render(request, 'feladat6.html', { 'eloadasok': Eloadas.objects.filter(ido__year=ido.year,ido__month=ido.month) })
