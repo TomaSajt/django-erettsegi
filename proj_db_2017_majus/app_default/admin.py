@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Tudos, Eloadas
+
+admin.site.register(Tudos)
+admin.site.register(Eloadas)
